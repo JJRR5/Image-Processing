@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import ttk
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -13,21 +14,21 @@ miframe.pack()
 miframe.config(bg="light sky blue",cursor='hand2')
 #//////////////////////////FUNCIONES///////////////////////////////////////////////
 def select():
-    if opcion.get()==1:
+    if menu.current()==0:
         ventana1=tk.Tk()
-        ventana1.title("Filtros espaciales")
+        ventana1.title("Filtros Espaciales")
         ventana1.mainloop()
-    elif opcion.get()==2:
+    elif menu.current()==1:
         ventana2=tk.Tk()
         ventana2.title("Morfología")
         ventana2.mainloop()
-    elif opcion.get()==3:
+    elif menu.current()==2:
         ventana3=tk.Tk()
-        ventana3.title("Umbralización y segmentación")
+        ventana3.title("Umbralización y Segmentación")
         ventana3.mainloop()
-    elif opcion.get()==4:
+    elif menu.current()==3:
         ventana4=tk.Tk()
-        ventana4.title("Transformación de intensidad")
+        ventana4.title("Transformación de Intensidad")
         ventana4.mainloop()
     else:
         messagebox.showerror(message="Debes seleccionar un comando antes de seleccionar la imagen",title="Error")
@@ -49,22 +50,17 @@ img3=img3.resize((200, 220),Image.ANTIALIAS)
 img3=ImageTk.PhotoImage(img3)
 
 boton1=tk.Button(miframe,image=img1,command=select)
-boton1.grid(row=1,column=0,padx=5,pady=5)
+boton1.grid(row=2,column=0,padx=5,pady=5)
 boton2=tk.Button(miframe,image=img2,command=select)
-boton2.grid(row=1,column=1,padx=5,pady=5)
+boton2.grid(row=2,column=1,padx=5,pady=5)
 boton3=tk.Button(miframe,image=img3,command=select)
-boton3.grid(row=1,column=2,padx=5,pady=5)
+boton3.grid(row=2,column=2,padx=5,pady=5)
 
-#Botones radiales
-opcion = tk.IntVar()
-b1 = tk.Radiobutton(miframe,text="1) Filtros Espaciales",variable=opcion,value=1,activebackground='green',font="Arial 15",bg='light sky blue')
-b1.grid(row=2,column=1,padx=5,pady=5)
-b2 = tk.Radiobutton(miframe,text="2) Morfología",variable=opcion,value=2,activebackground='green',font="Arial 15",bg='light sky blue')
-b2.grid(row=3,column=1,padx=5,pady=5)
-b3 = tk.Radiobutton(miframe,text="3) Umbralización y Segmentación",variable=opcion,value=3,activebackground='green',font="Arial 15",bg='light sky blue')
-b3.grid(row=4,column=1,padx=5,pady=5)
-b4 = tk.Radiobutton(miframe,text="4) Transformación de intensidad",variable=opcion,value=4,activebackground='green',font="Arial 15",bg='light sky blue')
-b4.grid(row=5,column=1,padx=5,pady=5)
+#Menu
+menu=ttk.Combobox(miframe,font="Arial 15",justify=tk.CENTER,width=30)
+menu.grid(row=1,column=1,padx=15,pady=15)
+opciones1=["Filtros Espaciales","Morfología","Umbralización y Segmentación","Transformación de Intensidad"]
+menu["values"]=opciones1
 
 #Boton principal de salida
 Salir=tk.Button(miframe,text="SALIR",width=10,command=salir,activebackground="red",font="Arial 18")
