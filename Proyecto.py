@@ -46,9 +46,9 @@ def select():
         miframe3=tk.Frame(ventana3)
         miframe3.pack()
         miframe3.config(bg="gold",cursor='hand2')
-        botoneg=tk.Button(miframe3,text="Escala de grises",command=select)
+        botoneg=tk.Button(miframe3,text="Escala de grises")
         botoneg.grid(row=1,column=0,padx=5,pady=5)
-        botonbn=tk.Button(miframe3,text="Blanco y negro",command=select)
+        botonbn=tk.Button(miframe3,text="Blanco y negro")
         botonbn.grid(row=1,column=1,padx=5,pady=5)
         ventana3.mainloop()
     elif menu.current()==3:
@@ -59,6 +59,8 @@ def select():
         miframe4.config(bg="gold",cursor='hand2')
         b=tk.Scale(miframe4, from_=0, to=100, orient=tk.HORIZONTAL)
         b.grid(row=1,column=1,padx=5,pady=5)
+        botonsel=tk.Button(miframe4,text="Seleccionar")
+        botonsel.grid(row=2,column=1,padx=5,pady=5)
         ventana4.mainloop()
     else:
         messagebox.showerror(message="Debes seleccionar un comando antes de seleccionar la imagen",title="Error")
