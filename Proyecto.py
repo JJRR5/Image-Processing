@@ -54,6 +54,11 @@ def select():
     elif menu.current()==3:
         ventana4=tk.Tk()
         ventana4.title("Transformación de Intensidad")
+        miframe4=tk.Frame(ventana4)
+        miframe4.pack()
+        miframe4.config(bg="gold",cursor='hand2')
+        b=tk.Scale(miframe4, from_=0, to=100, orient=tk.HORIZONTAL)
+        b.grid(row=1,column=1,padx=5,pady=5)
         ventana4.mainloop()
     else:
         messagebox.showerror(message="Debes seleccionar un comando antes de seleccionar la imagen",title="Error")
