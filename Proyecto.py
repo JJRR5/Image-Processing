@@ -212,6 +212,11 @@ def select():
         print
     def Erosión():
         print
+    def Brillo():
+        matriz = np.ones(imagen.shape,dtype=np.uint8)*b.get()*2
+        brillo = cv2.add(imagen,matriz)
+        cv2.imshow("BRILLO",brillo)
+        cv2.waitKey()
 #///////////////////////////////////////////////////////////////////LÓGICA DEL MENU PRINCIPAL/////////////////////////////////////////////////////////////////
     if menu.current()==0:
         ventana1=tk.Tk()
@@ -256,9 +261,11 @@ def select():
         miframe4=tk.Frame(ventana4)
         miframe4.pack()
         miframe4.config(bg="gold",cursor='hand2')
+        mensaje1=tk.Label(miframe4,text="Selecciona el nivel de brillo:",font=('Arial 15'))
+        mensaje1.grid(row=0,column=1,padx=5,pady=5)
         b=tk.Scale(miframe4, from_=0, to=100, orient=tk.HORIZONTAL)
         b.grid(row=1,column=1,padx=5,pady=5)
-        botonsel=tk.Button(miframe4,text="Seleccionar")
+        botonsel=tk.Button(miframe4,text="Seleccionar",command=Brillo)
         botonsel.grid(row=2,column=1,padx=5,pady=5)
         ventana4.mainloop()
     else:
