@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image,ImageTk
+import re 
 ventana=tk.Tk()
 ventana.title("Proyecto PDI")
 
@@ -129,21 +130,37 @@ def select():
             num7 = entry7.get()
             num8 = entry8.get()
             num9 = entry9.get()
-            if num1.isnumeric()==True and num2.isnumeric()==True and num3.isnumeric()==True and num4.isnumeric()==True and num5.isnumeric()==True and num6.isnumeric()==True and num7.isnumeric()==True and num8.isnumeric()==True and  num9.isnumeric()==True:
-                numa = int(num1)*-1
-                numb = int(num2)*-1
-                numc = int(num3)*-1
-                numd = int(num4)*-1
-                nume = int(num5)
-                numf = int(num6)*-1
-                numg = int(num7)*-1
-                numh = int(num8)*-1
-                numi = int(num9)*-1
-                kernel=np.array([[numa,numb,numc],[numd,nume,numf],[numg,numh,numi]])
-                kernel = 1/2 * kernel
-                bordes=cv2.filter2D(imagen,-1,kernel)
-                cv2.imshow("PASA ALTAS",bordes)
-                cv2.waitKey()
+            
+            num11 = re.sub("-","",num1)
+            num21 =  re.sub("-","",num2)
+            num31 =  re.sub("-","",num3)
+            num41 =  re.sub("-","",num4)
+            num51 = re.sub("-","",num5)
+            num61 =  re.sub("-","",num6)
+            num71 =  re.sub("-","",num7)
+            num81 =  re.sub("-","",num8)
+            num91 =  re.sub("-","",num9)
+            if num11.isdigit()==True and num21.isdigit()==True and num31.isdigit()==True and num41.isdigit()==True and num51.isdigit()==True and num61.isdigit()==True and num71.isdigit()==True and num81.isdigit()==True and  num91.isdigit()==True:
+                if num1.count("-")>0 and num2.count("-")>0 and num3.count("-")>0 and num4.count("-")>0 and num6.count("-")>0 and num7.count("-")>0 and num8.count("-")>0 and num9.count("-")>0:
+                    if num5.count("-")<1:
+                        numa = int(num1)
+                        numb = int(num2)
+                        numc = int(num3)
+                        numd = int(num4)
+                        nume = int(num5)
+                        numf = int(num6)
+                        numg = int(num7)
+                        numh = int(num8)
+                        numi = int(num9)
+                        kernel=np.array([[numa,numb,numc],[numd,nume,numf],[numg,numh,numi]])
+                        kernel = 1/2 * kernel
+                        bordes=cv2.filter2D(imagen,-1,kernel)
+                        cv2.imshow("PASA ALTAS",bordes)
+                        cv2.waitKey()
+                    else:
+                        messagebox.showerror(message="El 5to dato tiene que ser positivo",title="Error")
+                else:
+                    messagebox.showerror(message="Los datos de los arreglos deben de ser negativos excepto el 5to dato",title="Error")
             else:
                 messagebox.showerror(message="Los datos que ingresaste no son númericos o hay un espacio en blanco",title="Error")
         def limpiar():
@@ -207,11 +224,28 @@ def select():
         limpiar1=tk.Button(miframepb,text="Borrar",width=10,command=limpiar,font="Arial 18",activebackground="red")
         limpiar1.grid(row=4,column=2,padx=10,pady=10)
         ventanapb.mainloop()
-#/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    def Dilatación():
-        print
-    def Erosión():
-        print
+#//////////////////////////////////////MORFOLOGÍA///////////////////////////////////////////////////////////////////////////////////////////
+    def MORFOLOGÍA():
+        num = entry.get()
+        if num.isnumeric()==True:
+            iteration = int(num)
+            B,G,R= cv2.split(imagen)
+            ret,binaria = cv2.threshold(R,50,255,cv2.THRESH_BINARY_INV)
+            kernel = np.ones((3,3),np.uint8)
+            erosion = cv2.erode(binaria,kernel,iterations=iteration)
+            cv2.imwrite("new.jpg",erosion)
+            dilation = cv2.dilate(erosion,kernel,iterations=iteration)
+            cv2.imwrite("new1.jpg",dilation)
+            new = cv2.imread("new.jpg")
+            new1 = cv2.imread("new1.jpg")
+            cv2.putText(new,"Erosion",(70,30),cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),2)
+            cv2.putText(new1,"Dilatacion",(70,30),cv2.FONT_HERSHEY_COMPLEX,1,(0,0,255),2)
+            Imagenes = np.concatenate((new,new1),axis=1)
+            cv2.imshow("Efectos",Imagenes)
+            cv2.waitKey(0) 
+        else: 
+            messagebox.showerror(message="Los datos que ingresaste no son númericos o hay un espacio en blanco",title="Error")
+        
 #///////////////////////////////////////////////////////////////////LÓGICA DEL MENU PRINCIPAL/////////////////////////////////////////////////////////////////
     if menu.current()==0:
         ventana1=tk.Tk()
@@ -232,12 +266,17 @@ def select():
         miframe2=tk.Frame(ventana2)
         miframe2.pack()
         miframe2.config(bg="gold",cursor='hand2')
-        botondi=tk.Button(miframe2,text="Dilatación",font="Arial 15",activebackground="green")
-        botondi.grid(row=1,column=0,padx=5,pady=5)
-        botoner=tk.Button(miframe2,text="Erosión",font="Arial 15",activebackground="green")
-        botoner.grid(row=1,column=2,padx=5,pady=5)
-        Menu=tk.Button(miframe2,text="BACK",width=10,command=back2,font="Arial 18",activebackground="gold")
-        Menu.grid(row=2,column=1,padx=10,pady=10)
+        Menu=tk.Button(miframe2,text="BACK",width=10,command=back2,font="Arial 18",activebackground="red")
+        Menu.grid(row=2,column=0,padx=10,pady=10)
+        mensaje=tk.Label(miframe2,text="Ingresa el valor para el numero de iteraciones: ",font=('Arial 20'),bg='gold')
+        mensaje.grid(row=1,column=0,padx=10,pady=10)
+        entry = tk.Entry(miframe2,font="Arial 18")
+        entry.grid(row=1,column=1,padx=5,pady=5)
+        entry.config(justify="center")
+        mensaje1=tk.Label(miframe2,text="Erosión y Dilatación",font=('Arial 20'),bg='gold')
+        mensaje1.grid(row=0,column=0,padx=10,pady=10)
+        botoner=tk.Button(miframe2,text="Aplicar efectos",font="Arial 18",activebackground="green",command=MORFOLOGÍA)
+        botoner.grid(row=2,column=1,padx=5,pady=5)
         ventana2.mainloop()
     elif menu.current()==2:
         ventana3=tk.Tk()
