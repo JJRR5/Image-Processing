@@ -212,6 +212,14 @@ def select():
         print
     def Erosión():
         print
+    def Escala_grises():
+        gris=cv2.cvtColor(imagen,cv2.COLOR_RGB2GRAY)
+        cv2.imshow("ESCALA DE GRISES",gris)
+        cv2.waitKey()
+    def Blanco_negro():
+        bn=cv2.cvtColor(imagen,cv2.RGB2)
+        cv2.imshow("BLANCO Y NEGRO",bn)
+        cv2.waitKey()
     def Brillo():
         matriz = np.ones(imagen.shape,dtype=np.uint8)*b.get()*2
         brillo = cv2.add(imagen,matriz)
@@ -229,7 +237,7 @@ def select():
         botonpa=tk.Button(miframe1,text="Filtro pasa altas",font="Arial 15",activebackground="green",command=PasaAltas)
         botonpa.grid(row=1,column=2,padx=5,pady=5)
         Menu=tk.Button(miframe1,text="BACK",width=10,command=back1,font="Arial 18",activebackground="red")
-        Menu.grid(row=6,column=1,padx=10,pady=10)
+        Menu.grid(row=2,column=1,padx=10,pady=10)
         ventana1.mainloop()
     elif menu.current()==1:
         ventana2=tk.Tk()
@@ -249,24 +257,28 @@ def select():
         ventana3.title("Umbralización y Segmentación")
         miframe3=tk.Frame(ventana3)
         miframe3.pack()
-        miframe3.config(bg="gold",cursor='hand2')
-        botoneg=tk.Button(miframe3,text="Escala de grises")
+        miframe3.config(bg="dark blue",cursor='hand2')
+        botoneg=tk.Button(miframe3,text="Escala de grises",font="Arial 15",activebackground="green",command=Escala_grises)
         botoneg.grid(row=1,column=0,padx=5,pady=5)
-        botonbn=tk.Button(miframe3,text="Blanco y negro")
-        botonbn.grid(row=1,column=1,padx=5,pady=5)
+        botonbn=tk.Button(miframe3,text="Blanco y negro",font="Arial 15",activebackground="green",command=Blanco_negro)
+        botonbn.grid(row=1,column=2,padx=5,pady=5)
+        Menu=tk.Button(miframe3,text="BACK",width=10,command=back3,font="Arial 18",activebackground="red")
+        Menu.grid(row=2,column=1,padx=10,pady=10)
         ventana3.mainloop()
     elif menu.current()==3:
         ventana4=tk.Tk()
         ventana4.title("Transformación de Intensidad")
         miframe4=tk.Frame(ventana4)
         miframe4.pack()
-        miframe4.config(bg="gold",cursor='hand2')
-        mensaje1=tk.Label(miframe4,text="Selecciona el nivel de brillo:",font=('Arial 15'))
+        miframe4.config(bg="red",cursor='hand2')
+        mensaje1=tk.Label(miframe4,text="Selecciona el nivel de brillo:",font='Arial 15')
         mensaje1.grid(row=0,column=1,padx=5,pady=5)
-        b=tk.Scale(miframe4, from_=0, to=100, orient=tk.HORIZONTAL)
+        b=tk.Scale(miframe4, from_=0, to=100, orient=tk.HORIZONTAL,length=200)
         b.grid(row=1,column=1,padx=5,pady=5)
-        botonsel=tk.Button(miframe4,text="Seleccionar",command=Brillo)
+        botonsel=tk.Button(miframe4,text="SELECT",width=10,font="Arial 18",activebackground="green",command=Brillo)
         botonsel.grid(row=2,column=1,padx=5,pady=5)
+        Menu=tk.Button(miframe4,text="BACK",width=10,command=back4,font="Arial 18",activebackground="red")
+        Menu.grid(row=3,column=1,padx=10,pady=10)
         ventana4.mainloop()
     else:
         messagebox.showerror(message="Debes seleccionar un comando antes de seleccionar la imagen",title="Error")
