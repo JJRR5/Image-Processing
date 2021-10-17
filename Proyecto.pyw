@@ -142,7 +142,7 @@ def select():
             num81 =  re.sub("-","",num8)
             num91 =  re.sub("-","",num9)
             if num11.isdigit()==True and num21.isdigit()==True and num31.isdigit()==True and num41.isdigit()==True and num51.isdigit()==True and num61.isdigit()==True and num71.isdigit()==True and num81.isdigit()==True and  num91.isdigit()==True:
-                if num1.count("-")>0 and num2.count("-")>0 and num3.count("-")>0 and num4.count("-")>0 and num6.count("-")>0 and num7.count("-")>0 and num8.count("-")>0 and num9.count("-")>0:
+                if (num1.count("-")>0 or num1=="0") and num2.count("-")>0 and (num3.count("-")>0 or num3=="0") and num4.count("-")>0 and num6.count("-")>0 and (num7.count("-")>0 or num7=="0") and num8.count("-")>0 and (num9.count("-")>0 or num9=="0"):
                     if num5.count("-")<1:
                         numa = int(num1)
                         numb = int(num2)
