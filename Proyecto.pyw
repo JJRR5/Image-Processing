@@ -53,8 +53,7 @@ def select():
                 numi = int(num9)
                 kernel=np.array([[numa,numb,numc],[numd,nume,numf],[numg,numh,numi]])
                 kernel = 1/9 * kernel
-                im=cv2.cvtColor(imagen,cv2.COLOR_BGR2RGB)
-                Promedio=cv2.filter2D(im,-1,kernel)
+                Promedio=cv2.filter2D(imagen,-1,kernel)
                 cv2.imshow("PASA BAJAS",Promedio)
                 cv2.waitKey()
             else:
