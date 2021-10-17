@@ -5,7 +5,9 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image,ImageTk
-import re 
+import re
+import os
+
 ventana=tk.Tk()
 ventana.title("Proyecto PDI")
 
@@ -56,7 +58,7 @@ def select():
                 cv2.imshow("PASA BAJAS",Promedio)
                 cv2.waitKey()
             else:
-                messagebox.showerror(message="Los datos que ingresaste no son númericos o hay un espacio en blanco",title="Error")
+                messagebox.showerror(message="Los datos que ingresaste no son correctos o hay un espacio en blanco",title="Error")
         def limpiar():
             entry1.delete(0,tk.END)
             entry2.delete(0,tk.END)
@@ -162,7 +164,7 @@ def select():
                 else:
                     messagebox.showerror(message="Los datos de los arreglos deben de ser negativos excepto el 5to dato",title="Error")
             else:
-                messagebox.showerror(message="Los datos que ingresaste no son númericos o hay un espacio en blanco",title="Error")
+                messagebox.showerror(message="Los datos que ingresaste no son correctos o hay un espacio en blanco",title="Error")
         def limpiar():
             entry1.delete(0,tk.END)
             entry2.delete(0,tk.END)
@@ -247,18 +249,33 @@ def select():
             messagebox.showerror(message="Los datos que ingresaste no son númericos o hay un espacio en blanco",title="Error")
         
 #/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    def Dilatación():
-        print
-    def Erosión():
-        print
     def Escala_grises():
         gris=cv2.cvtColor(imagen,cv2.COLOR_RGB2GRAY)
         cv2.imshow("ESCALA DE GRISES",gris)
         cv2.waitKey()
-    def Blanco_negro():
-        bn=cv2.cvtColor(imagen,cv2.RGB2)
-        cv2.imshow("BLANCO Y NEGRO",bn)
-        cv2.waitKey()
+    def Blanco_negro():        
+        def filtro():
+            gris=cv2.cvtColor(imagen,cv2.COLOR_RGB2GRAY)
+            thresh = u.get()*2.55
+            bn = cv2.threshold(gris, thresh, 255, cv2.THRESH_BINARY)[1]
+            cv2.imshow("BLANCO Y NEGRO",bn)
+            cv2.waitKey()
+        def backbn():
+            ventanabn.destroy()
+        ventanabn=tk.Tk()
+        ventanabn.title("Blanco y negro")
+        miframebn=tk.Frame(ventanabn)
+        miframebn.pack()
+        miframebn.config(bg="red",cursor='hand2')
+        mensaje1=tk.Label(miframebn,text="Selecciona el umbral:",font='Arial 15')
+        mensaje1.grid(row=0,column=1,padx=5,pady=5)
+        u=tk.Scale(miframebn, from_=0, to=100, orient=tk.HORIZONTAL,length=200)
+        u.grid(row=1,column=1,padx=5,pady=5)
+        botonsel=tk.Button(miframebn,text="SELECT",width=10,font="Arial 18",activebackground="green",command=filtro)
+        botonsel.grid(row=2,column=1,padx=5,pady=5)
+        Menu=tk.Button(miframebn,text="BACK",width=10,command=backbn,font="Arial 18",activebackground="red")
+        Menu.grid(row=3,column=1,padx=10,pady=10)
+        ventanabn.mainloop()
     def Brillo():
         matriz = np.ones(imagen.shape,dtype=np.uint8)*b.get()*2
         brillo = cv2.add(imagen,matriz)
@@ -344,7 +361,7 @@ def select3():
 
 def salir():
     ventana.destroy()
-    cv2.destroyAllWindows()
+    os._exit(0)
 #//////////////////////////////////////////////////////////////////////////////
 mensaje=tk.Label(miframe,text="Elige una de las 3 imagenes y el comando a utilizar",font=('Arial 20'),bg='light sky blue')
 mensaje.grid(row=0,column=1,padx=10,pady=10)
